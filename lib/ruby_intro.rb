@@ -67,10 +67,18 @@ class BookInStock
   attr_accessor :isbn, :price
   
   def initialize(isbn, price)
-    #raise ArgumentError, 'Argument is not a non-empty string' unless isbn.is_a? String && isbn.length > 0
+    raise ArgumentError, 'Argument is not a non-empty string' unless ((isbn.is_a? String) && isbn.length > 0)
     @isbn = isbn
-    #raise ArgumentError, 'Argument is not a floating point number greater than zero' unless price.is_a? Float && price > 0
+    raise ArgumentError, 'Argument is not a floating point number greater than zero' unless (price.is_a? Numeric) && price > 0
     @price = price
+  end
+  
+  def price_as_string
+      result = price.to_f.round(2).to_s.insert(0,'$')
+      if /\$\d+\.\d{2}/.match?(result) == false
+        result = result.insert(-1,'0')
+      end
+      result
   end
 
 end
